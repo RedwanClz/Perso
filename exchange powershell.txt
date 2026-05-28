@@ -1,0 +1,95 @@
+# Connexion Exchange Online + Blocage salle Neuilly Avenir
+
+## 1. Installer le module Exchange Online
+
+```powershell
+Install-Module ExchangeOnlineManagement -Scope CurrentUser
+```
+
+---
+
+## 2. Importer le module
+
+```powershell
+Import-Module ExchangeOnlineManagement
+```
+
+---
+
+## 3. Connexion à Exchange Online
+
+```powershell
+Connect-ExchangeOnline -UserPrincipalName admin@mondomaine.com
+```
+
+Remplacer :
+
+* `admin@mondomaine.com`
+  par ton compte administrateur Microsoft 365.
+
+---
+
+## 4. Lister les salles disponibles
+
+```powershell
+Get-Mailbox -RecipientTypeDetails RoomMailbox | Select DisplayName,PrimarySmtpAddress
+```
+
+---
+
+## 5. Désactiver les réservations de la salle
+
+```powershell
+Set-CalendarProcessing -Identity "neuillyavenir@mondomaine.com" -AutomateProcessing None
+```
+
+Remplacer :
+
+* `neuillyavenir@mondomaine.com`
+  par l’adresse réelle de la salle.
+
+---
+
+## 6. Vérifier le statut de la salle
+
+```powershell
+Get-CalendarProcessing -Identity "neuillyavenir@mondomaine.com" | Select AutomateProcessing
+```
+
+Si le résultat est :
+
+```powershell
+None
+```
+
+alors les réservations sont désactivées.
+
+---
+
+## 7. Réactiver les réservations fin août
+
+```powershell
+Set-CalendarProcessing -Identity "neuillyavenir@mondomaine.com" -AutomateProcessing AutoAccept
+```
+
+---
+
+## 8. Vérifier la réactivation
+
+```powershell
+Get-CalendarProcessing -Identity "neuillyavenir@mondomaine.com" | Select AutomateProcessing
+```
+
+Le résultat attendu :
+
+```powershell
+AutoAccept
+```
+
+---
+
+## 9. Se déconnecter
+
+```powershell
+Disconnect-ExchangeOnline
+```
