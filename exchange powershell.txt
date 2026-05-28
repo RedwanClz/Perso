@@ -93,3 +93,13 @@ AutoAccept
 ```powershell
 Disconnect-ExchangeOnline
 ```
+
+
+
+Si tu veux aller plus loin et empêcher complètement toute réservation utilisateur pendant la période :
+
+Set-CalendarProcessing -Identity "neuillyplaisance@emmaus-defi.org" -AllBookInPolicy $false
+
+Réactivation ensuite :
+
+Set-CalendarProcessing -Identity "neuillyplaisance@emmaus-defi.org" -AllBookInPolicy $true
